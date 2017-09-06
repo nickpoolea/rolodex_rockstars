@@ -2,6 +2,7 @@ package com.libertymutual.goforcode.rolodex_rockstars.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Card {
 	@SequenceGenerator(name="CardIdSeq",
 	                   sequenceName="CardIdSeq")
 	private Long id;
+	@Column(nullable=false)
 	private String firstName;
 	private String lastName;
 	private String title;
@@ -36,6 +38,8 @@ public class Card {
 	
 	@OneToMany(mappedBy="card")
 	private List<PhoneNumber> phoneNumbers;
+	
+	public Card() {}
 
 	public Long getId() {
 		return id;

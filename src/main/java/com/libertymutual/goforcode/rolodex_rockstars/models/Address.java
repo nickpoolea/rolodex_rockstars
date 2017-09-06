@@ -33,6 +33,10 @@ public class Address {
 	private String state;
 	private int zipcode;
 	
+	public void addCardToAddress(Card card) {
+		this.card = card;
+	}
+	
 	public Long getId() {
 		return id;
 	}
