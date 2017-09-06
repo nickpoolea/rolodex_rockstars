@@ -13,47 +13,41 @@ import javax.persistence.SequenceGenerator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-@JsonIdentityInfo (
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property="id"
-)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 
 @Entity
 
 public class Card {
 
 	@Id
-	@GeneratedValue(generator="CardIdSeq",
-	                strategy=GenerationType.AUTO)
-	@SequenceGenerator(name="CardIdSeq",
-	                   sequenceName="CardIdSeq")
-	
+	@GeneratedValue(generator = "CardIdSeq", strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "CardIdSeq", sequenceName = "CardIdSeq")
+
 	private Long id;
 	@Column(nullable = false, length = 100)
 	private String firstName;
-	
+
 	@Column(nullable = false, length = 100)
 	private String lastName;
-	
+
 	@Column(nullable = false, length = 10)
 	private String title;
-	
+
 	@Column(nullable = true, length = 100)
 	private String company;
-	
-	@OneToMany(mappedBy="card")
+
+	@OneToMany(mappedBy = "card")
 	@Column(nullable = true, length = 100)
 	private List<Address> addresses;
-	
-	@OneToMany(mappedBy="card")
+
+	@OneToMany(mappedBy = "card")
 	@Column(nullable = true, length = 100)
 	private List<PhoneNumber> phoneNumbers;
-	
 
 	public Card() {
-		
+
 	}
-	
+
 	public Card(String firstName, String lastName, String title, String company, String address, String phoneNumber) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -118,7 +112,5 @@ public class Card {
 	public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
 	}
-	
 
-	
 }

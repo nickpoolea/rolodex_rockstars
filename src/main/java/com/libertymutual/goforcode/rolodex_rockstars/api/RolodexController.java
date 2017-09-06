@@ -14,28 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 import com.libertymutual.goforcode.rolodex_rockstars.models.Address;
 import com.libertymutual.goforcode.rolodex_rockstars.models.Card;
 import com.libertymutual.goforcode.rolodex_rockstars.models.PhoneNumber;
+import com.libertymutual.goforcode.rolodex_rockstars.repositories.AddressRepository;
 import com.libertymutual.goforcode.rolodex_rockstars.repositories.CardRepository;
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/cards")
 
 public class RolodexController {
 	private CardRepository cardRepo;
+	private AddressRepository addressRepo;
 
-	public RolodexController(CardRepository cardRepo) {
+	public RolodexController(CardRepository cardRepo, AddressRepository addressRepo) {
 
 		this.cardRepo = cardRepo;
+		this.addressRepo = addressRepo;
+		
+//		String firstName, String lastName, String title, String company, String address, String phoneNumber)
 	}
 
 	@GetMapping("") // Get all cards
 	public List<Card> getAllCards() {
-
 		return cardRepo.findAll();
-
 	}
 
 	// Get one card
-	@GetMapping("{id}") 
+	@GetMapping("{id}")
 	public Card getOne(@PathVariable long id) throws StuffNotFoundException {
 		Card card = cardRepo.findOne(id);
 		if (card == null) {
@@ -54,14 +57,17 @@ public class RolodexController {
 		return mewCard;
 	}
 
-	 // create a card
+	// create a card
 	@PostMapping("")
 	public Card create(@RequestBody Card card) {
+		List<Address> addresses = addressRepo.save(card.getAddresses());
+//		addressRepo.save(addresses);
+		addresses.get(0).addCardToAddress(card);
 		return cardRepo.save(card);
 	}
 
 	// update name and title of a card
-	@PutMapping("{id}") 
+	@PutMapping("{id}")
 	public Card update(@RequestBody Card card, @PathVariable long id) {
 		card.setId(id);
 		return cardRepo.save(card);
@@ -69,7 +75,7 @@ public class RolodexController {
 	}
 
 	// delete a card
-	@DeleteMapping("{id}") 
+	@DeleteMapping("{id}")
 	public Card delete(@PathVariable long id) {
 		try {
 			Card card = cardRepo.findOne(id);
@@ -79,22 +85,24 @@ public class RolodexController {
 			return null;
 		}
 	}
-	
+
 	// Add Phone number to Card
-	@PostMapping("{id}/phone") 
+	@PostMapping("{id}/phone")
 	public Card add_phoneNumber_ToCard(@RequestBody Card card, @PathVariable long id, PhoneNumber phone) {
-//		cardRepo.phoneRepo.save(phone);
+		// cardRepo.phoneRepo.save(phone);
 		return card;
 	}
 
 	// Add address to Card
-	@PostMapping("{id}/address") 
+	@PostMapping("{id}/address")
 	public Card add_address_ToCard(@RequestBody Card card, @PathVariable long id, Address address) {
+		address.addCardToAddress(card);
+		
 		return card;
 	}
-	
+
 	// Delete phone number from card
-	@DeleteMapping("{id}/phone") 					
+	@DeleteMapping("{id}/phone")
 	public Card delete_phone_fromCard(@PathVariable long id, PhoneNumber phone) {
 		try {
 
@@ -108,16 +116,16 @@ public class RolodexController {
 		}
 	}
 
-	//Delete address from card
-	@DeleteMapping("{id}/address")					
-	public Card delete_address_fromCard (@PathVariable long id, Address address) {
+	// Delete address from card
+	@DeleteMapping("{id}/address")
+	public Card delete_address_fromCard(@PathVariable long id, Address address) {
 		try {
-			
+
 			Card card = cardRepo.findOne(id);
-//			cardRepo.phoneRepo.delete(address);
+			// cardRepo.phoneRepo.delete(address);
 			return card;
 		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) {
-		return null;
+			return null;
 		}
 	}
 }
