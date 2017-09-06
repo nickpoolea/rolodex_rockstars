@@ -2,6 +2,7 @@ package com.libertymutual.goforcode.rolodex_rockstars.api;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.libertymutual.goforcode.rolodex_rockstars.repositories.PhoneRepositor
 
 @RestController
 @RequestMapping("/cards")
+@CrossOrigin(origins="*")
 
 public class RolodexController {
 	private CardRepository cardRepo;
