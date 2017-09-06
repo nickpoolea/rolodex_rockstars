@@ -26,7 +26,7 @@ public class Address {
 	private String street;
 	private String city;
 	private String state;
-	private int zipcode;
+	private int zipCode;
 
 	public void addCardToAddress(Card card) {
 		this.card = card;
@@ -80,12 +80,12 @@ public class Address {
 		this.state = state;
 	}
 
-	public int getZipcode() {
-		return zipcode;
+	public int getZipCode() {
+		return zipCode;
 	}
 
-	public void setZipcode(int zipcode) {
-		this.zipcode = zipcode;
+	public void setZipCode(int zipCode) {
+		this.zipCode = zipCode;
 	}
 
 }
