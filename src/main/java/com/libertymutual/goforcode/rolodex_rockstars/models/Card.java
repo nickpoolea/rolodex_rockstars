@@ -29,12 +29,7 @@ public class Card {
 	                   sequenceName="CardIdSeq")
 	
 	private Long id;
-<<<<<<< HEAD
-	@Column(nullable=false)
-=======
-	
 	@Column(nullable = false, length = 100)
->>>>>>> eac012e184775df42b9f53fbf9588fa8ad831eb4
 	private String firstName;
 	
 	@Column(nullable = false, length = 100)
@@ -54,9 +49,7 @@ public class Card {
 	@Column(nullable = true, length = 100)
 	private List<PhoneNumber> phoneNumbers;
 	
-<<<<<<< HEAD
-	public Card() {}
-=======
+
 	public Card() {
 		
 	}
@@ -69,7 +62,6 @@ public class Card {
 		this.title = address;
 		this.title = phoneNumber;
 	}
->>>>>>> eac012e184775df42b9f53fbf9588fa8ad831eb4
 
 	public Long getId() {
 		return id;
