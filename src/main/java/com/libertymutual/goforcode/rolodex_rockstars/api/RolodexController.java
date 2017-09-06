@@ -16,6 +16,7 @@ import com.libertymutual.goforcode.rolodex_rockstars.models.Card;
 import com.libertymutual.goforcode.rolodex_rockstars.models.PhoneNumber;
 import com.libertymutual.goforcode.rolodex_rockstars.repositories.AddressRepository;
 import com.libertymutual.goforcode.rolodex_rockstars.repositories.CardRepository;
+import com.libertymutual.goforcode.rolodex_rockstars.repositories.PhoneRepository;
 
 @RestController
 @RequestMapping("/cards")
@@ -23,13 +24,16 @@ import com.libertymutual.goforcode.rolodex_rockstars.repositories.CardRepository
 public class RolodexController {
 	private CardRepository cardRepo;
 	private AddressRepository addressRepo;
+	private PhoneRepository phoneRepo;
 
-	public RolodexController(CardRepository cardRepo, AddressRepository addressRepo) {
+	public RolodexController(CardRepository cardRepo, 
+							 AddressRepository addressRepo,
+							 PhoneRepository phoneRepo) {
 
 		this.cardRepo = cardRepo;
 		this.addressRepo = addressRepo;
-		
-//		String firstName, String lastName, String title, String company, String address, String phoneNumber)
+		this.phoneRepo = phoneRepo;
+	
 	}
 
 	@GetMapping("") // Get all cards
@@ -41,30 +45,39 @@ public class RolodexController {
 	@GetMapping("{id}")
 	public Card getOne(@PathVariable long id) throws StuffNotFoundException {
 		Card card = cardRepo.findOne(id);
-		if (card == null) {
-			throw new StuffNotFoundException();
-		}
-
-		Card mewCard = new Card();
-		mewCard.setAddresses(card.getAddresses());
-		mewCard.setCompany(card.getCompany());
-		mewCard.setFirstName(card.getFirstName());
-		mewCard.setLastName(card.getLastName());
-		mewCard.setPhoneNumbers(card.getPhoneNumbers());
-		mewCard.setTitle(card.getTitle());
-		mewCard.setId(id);
-
-		return mewCard;
+		return card;
 	}
 
 	// create a card
+//	@PostMapping("")
+//	public Card create(@RequestBody Card card) {
+//		List<Address> addresses = addressRepo.save(card.getAddresses());
+//		List<PhoneNumber> phoneNumbers = phoneRepo.save(card.getPhoneNumbers());
+//		phoneNumbers.get(0).addCardToPhoneNumber(card);
+//		addresses.get(0).addCardToAddress(card);
+//		return cardRepo.save(card);
+//	}
+	
 	@PostMapping("")
 	public Card create(@RequestBody Card card) {
-		List<Address> addresses = addressRepo.save(card.getAddresses());
-//		addressRepo.save(addresses);
-		addresses.get(0).addCardToAddress(card);
 		return cardRepo.save(card);
 	}
+	
+	// Add Phone number to Card
+		@PostMapping("{id}/phone")
+		public Card add_phoneNumber_ToCard(@PathVariable long id, @RequestBody PhoneNumber phoneNumber) {
+			Card card = cardRepo.findOne(id);
+			phoneNumber.addCardToPhoneNumber(card);
+			phoneRepo.save(phoneNumber);
+			return cardRepo.save(card);
+		}
+
+		// Add address to Card
+		@PostMapping("{id}/address")
+		public Card add_address_ToCard(@RequestBody Card card, @PathVariable long id, Address address) {
+			address.addCardToAddress(card);
+			return card;
+		}
 
 	// update name and title of a card
 	@PutMapping("{id}")
@@ -86,20 +99,7 @@ public class RolodexController {
 		}
 	}
 
-	// Add Phone number to Card
-	@PostMapping("{id}/phone")
-	public Card add_phoneNumber_ToCard(@RequestBody Card card, @PathVariable long id, PhoneNumber phone) {
-		// cardRepo.phoneRepo.save(phone);
-		return card;
-	}
-
-	// Add address to Card
-	@PostMapping("{id}/address")
-	public Card add_address_ToCard(@RequestBody Card card, @PathVariable long id, Address address) {
-		address.addCardToAddress(card);
-		
-		return card;
-	}
+	
 
 	// Delete phone number from card
 	@DeleteMapping("{id}/phone")
