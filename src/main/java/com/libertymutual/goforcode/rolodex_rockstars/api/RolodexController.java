@@ -48,16 +48,6 @@ public class RolodexController {
 		return card;
 	}
 
-	// create a card
-//	@PostMapping("")
-//	public Card create(@RequestBody Card card) {
-//		List<Address> addresses = addressRepo.save(card.getAddresses());
-//		List<PhoneNumber> phoneNumbers = phoneRepo.save(card.getPhoneNumbers());
-//		phoneNumbers.get(0).addCardToPhoneNumber(card);
-//		addresses.get(0).addCardToAddress(card);
-//		return cardRepo.save(card);
-//	}
-	
 	@PostMapping("")
 	public Card create(@RequestBody Card card) {
 		return cardRepo.save(card);
@@ -74,9 +64,11 @@ public class RolodexController {
 
 		// Add address to Card
 		@PostMapping("{id}/address")
-		public Card add_address_ToCard(@RequestBody Card card, @PathVariable long id, Address address) {
+		public Card add_address_ToCard(@PathVariable long id, @RequestBody Address address) {
+			Card card = cardRepo.findOne(id);
 			address.addCardToAddress(card);
-			return card;
+			addressRepo.save(address);
+			return cardRepo.save(card);
 		}
 
 	// update name and title of a card
