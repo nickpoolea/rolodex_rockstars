@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property="id"
 )
+
 @Entity
 
 public class Card {
@@ -26,20 +27,49 @@ public class Card {
 	                strategy=GenerationType.AUTO)
 	@SequenceGenerator(name="CardIdSeq",
 	                   sequenceName="CardIdSeq")
+	
 	private Long id;
+<<<<<<< HEAD
 	@Column(nullable=false)
+=======
+	
+	@Column(nullable = false, length = 100)
+>>>>>>> eac012e184775df42b9f53fbf9588fa8ad831eb4
 	private String firstName;
+	
+	@Column(nullable = false, length = 100)
 	private String lastName;
+	
+	@Column(nullable = false, length = 10)
 	private String title;
+	
+	@Column(nullable = true, length = 100)
 	private String company;
 	
 	@OneToMany(mappedBy="card")
+	@Column(nullable = true, length = 100)
 	private List<Address> addresses;
 	
 	@OneToMany(mappedBy="card")
+	@Column(nullable = true, length = 100)
 	private List<PhoneNumber> phoneNumbers;
 	
+<<<<<<< HEAD
 	public Card() {}
+=======
+	public Card() {
+		
+	}
+	
+	public Card(String firstName, String lastName, String title, String company, String address, String phoneNumber) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.title = title;
+		this.title = company;
+		this.title = address;
+		this.title = phoneNumber;
+	}
+>>>>>>> eac012e184775df42b9f53fbf9588fa8ad831eb4
 
 	public Long getId() {
 		return id;
@@ -97,6 +127,6 @@ public class Card {
 		this.phoneNumbers = phoneNumbers;
 	}
 	
-	
+
 	
 }
