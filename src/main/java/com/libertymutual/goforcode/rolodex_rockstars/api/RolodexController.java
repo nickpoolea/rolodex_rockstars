@@ -52,6 +52,10 @@ public class RolodexController {
 
 	@PostMapping("")
 	public Card create(@RequestBody Card card) {
+		List<Address> address = addressRepo.save(card.getAddresses());
+		List<PhoneNumber> phoneNumber = phoneRepo.save(card.getPhoneNumbers());
+		address.get(0).addCardToAddress(card);
+		phoneNumber.get(0).addCardToPhoneNumber(card);
 		return cardRepo.save(card);
 	}
 	
