@@ -2,6 +2,7 @@ package com.libertymutual.goforcode.rolodex_rockstars.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property="id"
 )
+
 @Entity
 
 public class Card {
@@ -25,17 +27,41 @@ public class Card {
 	                strategy=GenerationType.AUTO)
 	@SequenceGenerator(name="CardIdSeq",
 	                   sequenceName="CardIdSeq")
+	
 	private Long id;
+	
+	@Column(nullable = false, length = 100)
 	private String firstName;
+	
+	@Column(nullable = false, length = 100)
 	private String lastName;
+	
+	@Column(nullable = false, length = 10)
 	private String title;
+	
+	@Column(nullable = true, length = 100)
 	private String company;
 	
 	@OneToMany(mappedBy="card")
+	@Column(nullable = true, length = 100)
 	private List<Address> addresses;
 	
 	@OneToMany(mappedBy="card")
+	@Column(nullable = true, length = 100)
 	private List<PhoneNumber> phoneNumbers;
+	
+	public Card() {
+		
+	}
+	
+	public Card(String firstName, String lastName, String title, String company, String address, String phoneNumber) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.title = title;
+		this.title = company;
+		this.title = address;
+		this.title = phoneNumber;
+	}
 
 	public Long getId() {
 		return id;
@@ -93,6 +119,6 @@ public class Card {
 		this.phoneNumbers = phoneNumbers;
 	}
 	
-	
+
 	
 }
