@@ -1,6 +1,5 @@
 package com.libertymutual.goforcode.rolodex_rockstars.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -44,8 +43,6 @@ public class Card {
 	private List<PhoneNumber> phoneNumbers;
 
 	public Card() {
-		addresses = new ArrayList<Address>();
-		phoneNumbers = new ArrayList<PhoneNumber>();
 	}
 
 	public Card(String firstName, String lastName, String title, String company, String address, String phoneNumber) {

@@ -40,52 +40,58 @@ public class RolodexController {
 	public List<Card> getAllCards() {
 		return cardRepo.findAll();
 	}
+	
 
 	// Get one card
 	@GetMapping("{id}")
-	public Card getOne(@PathVariable long id) throws StuffNotFoundException {
-		Card card = cardRepo.findOne(id);
-		return card;
+	public Card getOneCard(@PathVariable long id) throws StuffNotFoundException {
+		return cardRepo.findOne(id);
 	}
+	
 
 	@PostMapping("")
 	public Card create(@RequestBody Card card) {
-		System.out.println("Printing -------------");
-		System.out.println(card.getAddresses().size());
-		if (card.getAddresses().size() > 0) {
-			List<Address> address = addressRepo.save(card.getAddresses());
-			address.get(0).addCardToAddress(card);
-		}
+		card = cardRepo.save(card);
+		List<PhoneNumber> phoneNumber = card.getPhoneNumbers();
+		List<Address> address = card.getAddresses();
 		
-		if (card.getPhoneNumbers().size() > 0) {
-			List<PhoneNumber> phoneNumber = phoneRepo.save(card.getPhoneNumbers());
+		if (card.getPhoneNumbers() != null) {
 			phoneNumber.get(0).addCardToPhoneNumber(card);
+			phoneRepo.save(phoneNumber);
 		}
 		
-		return cardRepo.save(card);
+		if (card.getAddresses() != null) {
+			address.get(0).addCardToAddress(card);
+			addressRepo.save(address);
+		}
+		
+		return card;
 	}
+	
 
 	// Add Phone number to Card
 	@PostMapping("{id}/phone")
-	public Card add_phoneNumber_ToCard(@PathVariable long id, @RequestBody PhoneNumber phoneNumber) {
+	public Card addPhoneNumberToCard(@PathVariable long id, @RequestBody PhoneNumber phoneNumber) {
 		Card card = cardRepo.findOne(id);
 		phoneNumber.addCardToPhoneNumber(card);
 		phoneRepo.save(phoneNumber);
 		return cardRepo.save(card);
 	}
+	
 
 	// Add address to Card
 	@PostMapping("{id}/address")
-	public Card add_address_ToCard(@PathVariable long id, @RequestBody Address address) {
+	public Card addAddressToCard(@PathVariable long id, @RequestBody Address address) {
 		Card card = cardRepo.findOne(id);
 		address.addCardToAddress(card);
 		addressRepo.save(address);
 		return cardRepo.save(card);
 	}
+	
 
 	// update name and title of a card
 	@PutMapping("{id}")
-	public Card update(@RequestBody Card card, @PathVariable long id) {
+	public Card UpdateCard(@RequestBody Card card, @PathVariable long id) {
 		card.setId(id);
 		return cardRepo.save(card);
 
@@ -93,41 +99,32 @@ public class RolodexController {
 
 	// delete a card
 	@DeleteMapping("{id}")
-	public Card delete(@PathVariable long id) {
-		try {
+	public Card deleteCard(@PathVariable long id) {
 			Card card = cardRepo.findOne(id);
+			addressRepo.delete(card.getAddresses());
+			phoneRepo.delete(card.getPhoneNumbers());
 			cardRepo.delete(id);
 			return card;
-		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) {
-			return null;
-		}
+		
 	}
 
 	// Delete phone number from card
-	@DeleteMapping("{id}/phone")
-	public Card delete_phone_fromCard(@PathVariable long id, PhoneNumber phone) {
+	@DeleteMapping("{id}/phone/{pho_id}")
+	public void deletePhoneFromCard(@PathVariable long id, @PathVariable long pho_id) {
 		try {
-
-			Card card = cardRepo.findOne(id);
-			// cardRepo.phoneRepo.delete(phone);
-			return card;
-
+			phoneRepo.delete(phoneRepo.findOne(pho_id));
 		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) {
-
-			return null;
+			System.out.println("Cannot delete something that doesn't exist");
 		}
 	}
 
 	// Delete address from card
-	@DeleteMapping("{id}/address")
-	public Card delete_address_fromCard(@PathVariable long id, Address address) {
+	@DeleteMapping("{id}/address/{add_id}")
+	public void deleteAddressFromCard(@PathVariable long id,  @PathVariable long add_id) {
 		try {
-
-			Card card = cardRepo.findOne(id);
-			// cardRepo.phoneRepo.delete(address);
-			return card;
+			addressRepo.delete(addressRepo.findOne(add_id));
 		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) {
-			return null;
+			System.out.println("Cannot delete something that doesn't exist");
 		}
 	}
 }
