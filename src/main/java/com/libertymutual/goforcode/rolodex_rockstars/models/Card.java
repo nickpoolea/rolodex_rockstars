@@ -1,5 +1,6 @@
 package com.libertymutual.goforcode.rolodex_rockstars.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,19 +34,18 @@ public class Card {
 	@Column(nullable = false, length = 10)
 	private String title;
 
-	@Column(nullable = true, length = 100)
+	@Column(length = 100)
 	private String company;
 
 	@OneToMany(mappedBy = "card")
-	@Column(nullable = true, length = 100)
 	private List<Address> addresses;
 
 	@OneToMany(mappedBy = "card")
-	@Column(nullable = true, length = 100)
 	private List<PhoneNumber> phoneNumbers;
 
 	public Card() {
-
+		addresses = new ArrayList<Address>();
+		phoneNumbers = new ArrayList<PhoneNumber>();
 	}
 
 	public Card(String firstName, String lastName, String title, String company, String address, String phoneNumber) {

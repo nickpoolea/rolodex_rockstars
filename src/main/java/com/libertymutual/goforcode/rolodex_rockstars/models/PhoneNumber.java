@@ -1,5 +1,6 @@
 package com.libertymutual.goforcode.rolodex_rockstars.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,10 @@ public class PhoneNumber {
 	@ManyToOne
 	private Card card;
 
+	@Column(length = 20)
 	private String type;
+	
+	@Column(length = 11)
 	private String number;
 	
 	public void addCardToPhoneNumber(Card card) {

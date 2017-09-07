@@ -1,5 +1,6 @@
 package com.libertymutual.goforcode.rolodex_rockstars.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +23,20 @@ public class Address {
 	@ManyToOne
 	private Card card;
 
+	@Column(length = 20)
 	private String type;
+
+	@Column(length = 100)
 	private String street;
+
+	@Column(length = 100)
 	private String city;
+
+	@Column(length = 2)
 	private String state;
-	private int zipCode;
+
+	@Column(length = 5)
+	private String zipCode;
 
 	public void addCardToAddress(Card card) {
 		this.card = card;
@@ -80,11 +90,11 @@ public class Address {
 		this.state = state;
 	}
 
-	public int getZipCode() {
+	public String getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(int zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
