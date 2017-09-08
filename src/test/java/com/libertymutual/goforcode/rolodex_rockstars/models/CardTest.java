@@ -1,11 +1,10 @@
-package models;
+package com.libertymutual.goforcode.rolodex_rockstars.models;
+
 
 import org.junit.Test;
 import org.meanbean.test.BeanTester;
 
-import com.libertymutual.goforcode.rolodex_rockstars.models.Address;
 import com.libertymutual.goforcode.rolodex_rockstars.models.Card;
-import com.libertymutual.goforcode.rolodex_rockstars.models.PhoneNumber;
 
 public class CardTest {
 	

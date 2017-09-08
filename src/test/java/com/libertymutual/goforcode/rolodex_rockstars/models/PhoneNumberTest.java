@@ -1,4 +1,4 @@
-package models;
+package com.libertymutual.goforcode.rolodex_rockstars.models;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +17,7 @@ public class PhoneNumberTest {
 	  beanTester.testBean(PhoneNumber.class);
 	 }
 
-
+	 @Test
 	 public void test_Add_Card_ToPhone() {
 			 Card card = new Card();
 			 PhoneNumber phoneNumber = new PhoneNumber();

@@ -41,17 +41,8 @@ public class Card {
 
 	@OneToMany(mappedBy = "card")
 	private List<PhoneNumber> phoneNumbers;
-
+ 
 	public Card() {
-	}
-
-	public Card(String firstName, String lastName, String title, String company, String address, String phoneNumber) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.title = title;
-		this.title = company;
-		this.title = address;
-		this.title = phoneNumber;
 	}
 
 	public Long getId() {

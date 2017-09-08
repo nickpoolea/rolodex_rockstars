@@ -39,7 +39,7 @@ public class Address {
 	private int zipCode;
 
 	public void addCardToAddress(Card card) {
-		this.card = card;
+		this.card = card; 
 	}
 
 	public Long getId() {

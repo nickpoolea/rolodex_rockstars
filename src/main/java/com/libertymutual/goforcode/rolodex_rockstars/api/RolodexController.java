@@ -34,7 +34,7 @@ public class RolodexController {
 		this.addressRepo = addressRepo;
 		this.phoneRepo = phoneRepo;
 
-	}
+	} 
 
 	// Get all cards
 	@GetMapping("")
@@ -45,7 +45,7 @@ public class RolodexController {
 	// Get one card
 	@GetMapping("{id}")
 	public Card getOneCard(@PathVariable long id) {
-		return cardRepo.findOne(id);
+		return cardRepo.findOne(id); 
 	}
 
 	// Create a card
@@ -53,7 +53,7 @@ public class RolodexController {
 	public Card create(@RequestBody Card card) {
 		card = cardRepo.save(card);
 		List<PhoneNumber> phoneNumber = card.getPhoneNumbers();
-		List<Address> address = card.getAddresses();
+		List<Address> address = card.getAddresses(); 
 
 		if (card.getPhoneNumbers() != null) {
 			phoneNumber.get(0).addCardToPhoneNumber(card);
@@ -67,14 +67,14 @@ public class RolodexController {
 
 		return card;
 	}
-
+ 
 	// Add Phone number to Card
 	@PostMapping("{id}/phone")
 	public Card addPhoneNumberToCard(@PathVariable long id, @RequestBody PhoneNumber phoneNumber) {
 		Card card = cardRepo.findOne(id);
-		phoneNumber.addCardToPhoneNumber(card);
+		phoneNumber.addCardToPhoneNumber(card); 
 		phoneRepo.save(phoneNumber);
-		return card;
+		return card; 
 	}
 
 	// Add address to Card
@@ -83,14 +83,14 @@ public class RolodexController {
 		Card card = cardRepo.findOne(id);
 		address.addCardToAddress(card);
 		addressRepo.save(address);
-		return card;
+		return card; 
 	}
 
 	// update name and title of a card
 	@PutMapping("{id}")
 	public Card UpdateCard(@RequestBody Card card, @PathVariable long id) {
 		card.setId(id);
-		return cardRepo.save(card);
+		return cardRepo.save(card); 
 
 	}
 
