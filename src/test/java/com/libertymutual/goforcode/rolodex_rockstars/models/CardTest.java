@@ -1,6 +1,5 @@
 package com.libertymutual.goforcode.rolodex_rockstars.models;
 
-
 import org.junit.Test;
 import org.meanbean.test.BeanTester;
 

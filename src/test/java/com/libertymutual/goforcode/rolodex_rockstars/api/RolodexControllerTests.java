@@ -161,5 +161,59 @@ public class RolodexControllerTests {
 		verify(cardRepo).delete(3l);
 		verify(cardRepo).findOne(3l);
 	}
+	
+	@Test
+	public void test_that_deleteCard_runs_delete_and_returns_a_card() {
+		// Arrange
+		Card card = new Card();
+		when(cardRepo.findOne(3l)).thenReturn(card);
 
+		// Act
+		Card actual = controller.deleteCard(3l);
+
+		// Assert
+		assertThat(card).isSameAs(actual);
+		verify(cardRepo).delete(3l);
+		verify(cardRepo).findOne(3l);
+	}
+
+	@Test
+	public void test_that_deleteAddress_deletes_address_and_returns_card() {
+
+		// Arrange
+		Address address = new Address();
+		address.setId(2l);
+		Card card = new Card();
+		card.setId(3l);
+		when(addressRepo.findOne(2l)).thenReturn(address);
+
+		// Act
+		controller.deleteAddressFromCard(3l, 2l);
+
+		// Assert
+		verify(addressRepo).findOne(2l);
+		verify(addressRepo).delete(address);
+		
+	}
+	
+	
+	@Test
+	public void test_that_deletePhone_deletes_address_and_returns_card() {
+
+		// Arrange
+		PhoneNumber phoneNumber = new PhoneNumber();
+		phoneNumber.setId(2l);
+		Card card = new Card();
+		card.setId(3l);
+		when(phoneRepo.findOne(2l)).thenReturn(phoneNumber);
+
+		// Act
+		controller.deletePhoneFromCard(3l, 2l);
+
+		// Assert
+		verify(phoneRepo).findOne(2l);
+		verify(phoneRepo).delete(phoneNumber);
+		
+	}
+	
 }
