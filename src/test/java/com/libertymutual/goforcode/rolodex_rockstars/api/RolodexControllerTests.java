@@ -18,12 +18,12 @@ import com.libertymutual.goforcode.rolodex_rockstars.repositories.CardRepository
 import com.libertymutual.goforcode.rolodex_rockstars.repositories.PhoneRepository;
 
 public class RolodexControllerTests {
-	
+
 	private CardRepository cardRepo;
 	private AddressRepository addressRepo;
 	private PhoneRepository phoneRepo;
 	private RolodexController controller;
-	
+
 	@Before
 	public void setUp() {
 		cardRepo = mock(CardRepository.class);
@@ -34,120 +34,132 @@ public class RolodexControllerTests {
 
 	@Test
 	public void test_that_get_all_returns_a_list_of_all_card_objects() {
-		//arrange
+		// arrange
 		List<Card> cards = new ArrayList<Card>();
 		cards.add(new Card());
 		cards.add(new Card());
 		cards.add(new Card());
 		when(cardRepo.findAll()).thenReturn(cards);
-		
-		//act 
-		List<Card> actual  = controller.getAllCards();
-				
-		//assert
+
+		// act
+		List<Card> actual = controller.getAllCards();
+
+		// assert
 		assertThat(actual.size()).isEqualTo(3);
 		assertThat(actual).isSameAs(cards);
 		verify(cardRepo).findAll();
 	}
-	
 
 	@Test
 	public void test_getOne_returns_card_returned_from_rep() {
-		//Arrange
+		// Arrange
 		Card card = new Card();
 		when(cardRepo.findOne(8l)).thenReturn(card);
-		
-		//Act
+
+		// Act
 		Card actual = controller.getOneCard(8l);
-		
-		//Assert 
+
+		// Assert
 		assertThat(card).isSameAs(actual);
 		verify(cardRepo).findOne(8l);
 	}
-	
+
 	@Test
 	public void test_that_create_runs_and_returns_card_from_the_repo() {
-		//Arrange
+		// Arrange
 		Card card = new Card();
 		when(cardRepo.save(card)).thenReturn(card);
-				
-		//Act
+
+		// Act
 		Card actual = controller.create(card);
-				
-		//Assert
+
+		// Assert
 		assertThat(actual).isSameAs(card);
 		verify(cardRepo).save(card);
-	} 
-	
-	@Test 
+	}
+
+	@Test
 	public void test_that_create_run_and_returns_a_card_with_an_address() {
-		//arrange
+		// arrange
 		Card card = new Card();
 		List<Address> addresses = new ArrayList<Address>();
 		Address address = new Address();
 		addresses.add(address);
 		card.setAddresses(addresses);
 		when(cardRepo.save(card)).thenReturn(card);
-		
-		//act
+
+		// act
 		Card actual = controller.create(card);
-		
-		//assert
+
+		// assert
 		assertThat(actual.getAddresses()).isSameAs(addresses);
 		verify(addressRepo).save(addresses);
 	}
-	
-	@Test 
+
+	@Test
 	public void test_that_create_run_and_returns_a_card_with_a_phone() {
-		//arrange
+		// arrange
 		Card card = new Card();
 		List<PhoneNumber> phoneNumbers = new ArrayList<PhoneNumber>();
 		PhoneNumber phoneNumber = new PhoneNumber();
 		phoneNumbers.add(phoneNumber);
 		card.setPhoneNumbers(phoneNumbers);
 		when(cardRepo.save(card)).thenReturn(card);
-		
-		//act
+
+		// act
 		Card actual = controller.create(card);
-		
-		//assert
+
+		// assert
 		assertThat(actual.getPhoneNumbers()).isSameAs(phoneNumbers);
 		verify(phoneRepo).save(phoneNumbers);
-	} 
-	
+	}
+
 	@Test
 	public void test_that_addPhone_adds_a_number_save_a_number_and_returns_a_card() {
-		//arrange
-		Card card = new Card(); 
+		// arrange
+		Card card = new Card();
 		PhoneNumber phoneNumber = new PhoneNumber();
 		when(cardRepo.findOne(57l)).thenReturn(card);
 		when(phoneRepo.save(phoneNumber)).thenReturn(phoneNumber);
-		
-		//act
+
+		// act
 		Card actual = controller.addPhoneNumberToCard(57l, phoneNumber);
-		
-		//assert  
+
+		// assert
 		assertThat(actual).isSameAs(card);
 		verify(phoneRepo).save(phoneNumber);
-		verify(cardRepo).findOne(57l); 
-		
+		verify(cardRepo).findOne(57l);
+
 	}
-	
+
 	@Test
 	public void test_that_addAddress_adds_a_number_save_a_number_and_returns_a_card() {
-		//arrange
+		// arrange
 		Card card = new Card();
 		Address address = new Address();
 		when(cardRepo.findOne(22l)).thenReturn(card);
-		
-		//act
+
+		// act
 		Card actual = controller.addAddressToCard(22l, address);
-		
-		//assert
+
+		// assert
 		assertThat(actual).isSameAs(card);
 		verify(addressRepo).save(address);
 		verify(cardRepo).findOne(22l);
-		
+
 	}
-	
+
+	@Test
+	public void test_deleteCard() {
+		// Arrange
+		Card card = new Card();
+		when(cardRepo.findOne(3l)).thenReturn(card);
+		// Act
+		Card actual = controller.deleteCard(3l);
+		// Assert
+		assertThat(card).isSameAs(actual);
+		verify(cardRepo).delete(3l);
+		verify(cardRepo).findOne(3l);
+	}
+
 }
