@@ -90,11 +90,11 @@ public class Address {
 		this.state = state;
 	}
 
-	public String getZipCode() {
+	public int getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(String zipCode) {
+	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
 	}
 
