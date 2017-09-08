@@ -1,4 +1,4 @@
-package models;
+package com.libertymutual.goforcode.rolodex_rockstars.models;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
