@@ -17,7 +17,7 @@ public class PhoneNumberTest {
 	  beanTester.testBean(PhoneNumber.class);
 	 }
 
-
+	 @Test
 	 public void test_Add_Card_ToPhone() {
 			 Card card = new Card();
 			 PhoneNumber phoneNumber = new PhoneNumber();
