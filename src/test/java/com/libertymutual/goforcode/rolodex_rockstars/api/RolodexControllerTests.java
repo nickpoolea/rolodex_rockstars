@@ -1,7 +1,6 @@
 package com.libertymutual.goforcode.rolodex_rockstars.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.libertymutual.goforcode.rolodex_rockstars.models.Address;
 import com.libertymutual.goforcode.rolodex_rockstars.models.Card;
@@ -25,7 +25,7 @@ public class RolodexControllerTests {
 	private RolodexController controller;
 
 	@Before
-	public void setUp() {
+	public void setUp() { 
 		cardRepo = mock(CardRepository.class);
 		addressRepo = mock(AddressRepository.class);
 		phoneRepo = mock(PhoneRepository.class);
@@ -215,5 +215,46 @@ public class RolodexControllerTests {
 		verify(phoneRepo).delete(phoneNumber);
 		
 	}
+	
+	@Test
+	public void test_that_deletePhone_throws_EmptyResultDataAccessException() {
+	
+		when(phoneRepo.findOne(66l)).thenThrow(new EmptyResultDataAccessException(0));
+		
+		controller.deletePhoneFromCard(12l, 66l);
+		
+		verify(phoneRepo).findOne(66l);  
+	}
+	
+	@Test
+	public void test_that_deleteAddress_throws_EmptyResultDataAccessException() {
+	
+		when(addressRepo.findOne(66l)).thenThrow(new EmptyResultDataAccessException(0));
+		
+		controller.deleteAddressFromCard(12l, 66l);
+		
+		verify(addressRepo).findOne(66l);  
+	}	
+	
+	@Test
+	public void test_that_updateCard_sets_card_id_and_returns_card() {
+		//arrange
+		Card card = new Card();
+		when(cardRepo.save(card)).thenReturn(card);
+		
+		//act
+		Card actual = controller.UpdateCard(card, 12l);
+		
+		//assert
+		assertThat(card).isSameAs(actual);
+		assertThat(card.getId()).isEqualTo(12l);
+		verify(cardRepo).save(card);
+	}
+	
+	
+	
+	
+	
+	
 	
 }

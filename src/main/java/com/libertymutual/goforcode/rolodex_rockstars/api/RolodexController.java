@@ -108,11 +108,11 @@ public class RolodexController {
 	// Delete phone number from card
 	@DeleteMapping("{id}/phone/{pho_id}")
 	public void deletePhoneFromCard(@PathVariable long id, @PathVariable long pho_id) {
-		try { 
+		try {  
 			phoneRepo.delete(phoneRepo.findOne(pho_id));
-		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) {
+		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) { 
 			System.out.println("Cannot delete something that doesn't exist");
-		}
+		}  
 	}
 
 	// Delete address from card
