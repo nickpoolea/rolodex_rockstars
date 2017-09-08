@@ -79,7 +79,7 @@ public class RolodexControllerTests {
 	}
 
 	@Test
-	public void test_that_create_run_and_returns_a_card_with_an_address() {
+	public void test_that_create_runs_and_returns_a_card_with_an_address() {
 		// arrange
 		Card card = new Card();
 		List<Address> addresses = new ArrayList<Address>();
@@ -97,7 +97,7 @@ public class RolodexControllerTests {
 	}
 
 	@Test
-	public void test_that_create_run_and_returns_a_card_with_a_phone() {
+	public void test_that_create_runs_and_returns_a_card_with_a_phone() {
 		// arrange
 		Card card = new Card();
 		List<PhoneNumber> phoneNumbers = new ArrayList<PhoneNumber>();
@@ -115,7 +115,7 @@ public class RolodexControllerTests {
 	}
 
 	@Test
-	public void test_that_addPhone_adds_a_number_save_a_number_and_returns_a_card() {
+	public void test_that_addPhone_adds_a_number_and_saves_a_number_and_returns_a_card() {
 		// arrange
 		Card card = new Card();
 		PhoneNumber phoneNumber = new PhoneNumber();
@@ -133,7 +133,7 @@ public class RolodexControllerTests {
 	}
 
 	@Test
-	public void test_that_addAddress_adds_a_number_save_a_number_and_returns_a_card() {
+	public void test_that_addAddress_adds_an_address_saves_an_address_and_returns_a_card() {
 		// arrange
 		Card card = new Card();
 		Address address = new Address();
@@ -147,19 +147,6 @@ public class RolodexControllerTests {
 		verify(addressRepo).save(address);
 		verify(cardRepo).findOne(22l);
 
-	}
-
-	@Test
-	public void test_deleteCard() {
-		// Arrange
-		Card card = new Card();
-		when(cardRepo.findOne(3l)).thenReturn(card);
-		// Act
-		Card actual = controller.deleteCard(3l);
-		// Assert
-		assertThat(card).isSameAs(actual);
-		verify(cardRepo).delete(3l);
-		verify(cardRepo).findOne(3l);
 	}
 	
 	@Test
@@ -198,7 +185,7 @@ public class RolodexControllerTests {
 	
 	
 	@Test
-	public void test_that_deletePhone_deletes_address_and_returns_card() {
+	public void test_that_deletePhone_deletes_number_and_returns_card() {
 
 		// Arrange
 		PhoneNumber phoneNumber = new PhoneNumber();
@@ -250,11 +237,5 @@ public class RolodexControllerTests {
 		assertThat(card.getId()).isEqualTo(12l);
 		verify(cardRepo).save(card);
 	}
-	
-	
-	
-	
-	
-	
 	
 }
