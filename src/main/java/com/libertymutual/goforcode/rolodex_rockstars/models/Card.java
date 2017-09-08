@@ -23,7 +23,7 @@ public class Card {
 	@GeneratedValue(generator = "CardIdSeq", strategy = GenerationType.AUTO)
 	@SequenceGenerator(name = "CardIdSeq", sequenceName = "CardIdSeq")
 	private Long id;
-	
+
 	@Column(nullable = false, length = 100)
 	private String firstName;
 
@@ -52,6 +52,28 @@ public class Card {
 		this.title = company;
 		this.title = address;
 		this.title = phoneNumber;
+	}
+	
+	public boolean checkCardForAnAddress(long id) {
+		boolean boolReturn = false;
+		
+		for (Address address: addresses) {
+			if (address.getId() == id) {
+				boolReturn = true;
+			}
+		}
+		return boolReturn;
+	}
+	
+	public boolean checkCardForAPhoneNumber(long id) {
+		boolean boolReturn = false;
+		
+		for (PhoneNumber phoneNumber: phoneNumbers) {
+			if (phoneNumber.getId() == id) {
+				boolReturn = true;
+			}
+		}
+		return boolReturn;
 	}
 
 	public Long getId() {

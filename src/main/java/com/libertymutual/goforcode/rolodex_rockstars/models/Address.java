@@ -36,7 +36,7 @@ public class Address {
 	private String state;
 
 	@Column(length = 5)
-	private String zipCode;
+	private int zipCode;
 
 	public void addCardToAddress(Card card) {
 		this.card = card;

@@ -25,10 +25,10 @@ public class PhoneNumber {
 
 	@Column(length = 20)
 	private String type;
-	
+
 	@Column(length = 11)
 	private String number;
-	
+
 	public void addCardToPhoneNumber(Card card) {
 		this.card = card;
 	}

@@ -36,38 +36,37 @@ public class RolodexController {
 
 	}
 
-	@GetMapping("") // Get all cards
+	// Get all cards
+	@GetMapping("")
 	public List<Card> getAllCards() {
 		return cardRepo.findAll();
 	}
-	
 
 	// Get one card
 	@GetMapping("{id}")
-	public Card getOneCard(@PathVariable long id) throws StuffNotFoundException {
+	public Card getOneCard(@PathVariable long id) {
 		return cardRepo.findOne(id);
 	}
-	
 
+	// Create a card
 	@PostMapping("")
 	public Card create(@RequestBody Card card) {
 		card = cardRepo.save(card);
 		List<PhoneNumber> phoneNumber = card.getPhoneNumbers();
 		List<Address> address = card.getAddresses();
-		
+
 		if (card.getPhoneNumbers() != null) {
 			phoneNumber.get(0).addCardToPhoneNumber(card);
 			phoneRepo.save(phoneNumber);
 		}
-		
+
 		if (card.getAddresses() != null) {
 			address.get(0).addCardToAddress(card);
 			addressRepo.save(address);
 		}
-		
+
 		return card;
 	}
-	
 
 	// Add Phone number to Card
 	@PostMapping("{id}/phone")
@@ -75,9 +74,8 @@ public class RolodexController {
 		Card card = cardRepo.findOne(id);
 		phoneNumber.addCardToPhoneNumber(card);
 		phoneRepo.save(phoneNumber);
-		return cardRepo.save(card);
+		return card;
 	}
-	
 
 	// Add address to Card
 	@PostMapping("{id}/address")
@@ -85,9 +83,8 @@ public class RolodexController {
 		Card card = cardRepo.findOne(id);
 		address.addCardToAddress(card);
 		addressRepo.save(address);
-		return cardRepo.save(card);
+		return card;
 	}
-	
 
 	// update name and title of a card
 	@PutMapping("{id}")
@@ -100,12 +97,12 @@ public class RolodexController {
 	// delete a card
 	@DeleteMapping("{id}")
 	public Card deleteCard(@PathVariable long id) {
-			Card card = cardRepo.findOne(id);
-			addressRepo.delete(card.getAddresses());
-			phoneRepo.delete(card.getPhoneNumbers());
-			cardRepo.delete(id);
-			return card;
-		
+		Card card = cardRepo.findOne(id);
+		addressRepo.delete(card.getAddresses());
+		phoneRepo.delete(card.getPhoneNumbers());
+		cardRepo.delete(id);
+		return card;
+
 	}
 
 	// Delete phone number from card
@@ -120,8 +117,9 @@ public class RolodexController {
 
 	// Delete address from card
 	@DeleteMapping("{id}/address/{add_id}")
-	public void deleteAddressFromCard(@PathVariable long id,  @PathVariable long add_id) {
+	public void deleteAddressFromCard(@PathVariable long id, @PathVariable long add_id) {
 		try {
+			
 			addressRepo.delete(addressRepo.findOne(add_id));
 		} catch (org.springframework.dao.EmptyResultDataAccessException erdae) {
 			System.out.println("Cannot delete something that doesn't exist");
